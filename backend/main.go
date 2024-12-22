@@ -8,10 +8,14 @@ import (
 
 var db = make(map[string]string)
 
-func setupRouter() *gin.Engine {
+func createServer() *gin.Engine {
 	// Disable Console Color
 	// gin.DisableConsoleColor()
 	r := gin.Default()
+
+	if err := r.SetTrustedProxies(nil); err != nil {
+		panic(err)
+	}
 
 	// Ping test
 	r.GET("/ping", func(c *gin.Context) {
@@ -68,7 +72,7 @@ func setupRouter() *gin.Engine {
 }
 
 func main() {
-	r := setupRouter()
+	r := createServer()
 	// Listen and Server in 0.0.0.0:8080
 	r.Run(":8080")
 }
